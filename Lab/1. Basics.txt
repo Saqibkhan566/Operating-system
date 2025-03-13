@@ -1,0 +1,159 @@
+Packages
+sudo apt update        # Update package lists  
+sudo apt upgrade       # Upgrade installed packages  
+sudo apt full-upgrade  # Upgrade with dependency changes
+
+sudo apt install package_name  # Install a package  
+sudo apt install -y package_name  # Install without confirmation
+
+sudo apt remove package_name  # Remove a package  
+sudo apt purge package_name   # Remove with config files
+
+apt search package_name  # Search for a package  
+apt show package_name    # Show package details
+
+dpkg --list     # List all installed packages  
+apt list --installed  # Another way to list installed packages
+
+sudo apt autoremove   # Remove unused dependencies  
+sudo apt clean        # Clear downloaded package files  
+sudo apt autoclean    # Remove old package versions
+
+sudo apt install -f  # Fix broken dependencies
+
+
+Users
+sudo adduser username
+
+Or
+sudo useradd -m -s /bin/bash username
+sudo passwd username  # Set a password
+
+Add user a sudoer and add it to group
+sudo usermod -aG sudo username
+
+Check all users
+cut -d: -f1 /etc/passwd
+
+ Check users groups
+
+groups username
+
+
+Permissions 
+View
+ls -l                 # List files with permissions
+ls -la                # List all files (including hidden ones) with permissions
+stat filename         # Detailed file permissions and metadata
+
+Octal
+Using Numeric (Octal) Mode
+
+4 = Read (r)
+
+2 = Write (w)
+
+1 = Execute (x)
+
+
+chmod 755 filename    # Owner: read/write/execute, Group/Others: read/execute
+chmod 644 filename    # Owner: read/write, Group/Others: read only
+chmod 700 filename    # Owner: full access, Group/Others: no access
+chmod -R 755 dirname  # Change permissions recursively for a directory
+
+
+
+Using Symbolic Mode
+
+u → User (Owner)
+
+g → Group
+
+o → Others
+
+a → All (Owner, Group, Others)
+
+
+chmod u+x filename    # Add execute permission for the owner
+chmod g-w filename    # Remove write permission for the group
+chmod o+r filename    # Add read permission for others
+chmod a+x filename    # Add execute permission for everyone
+chmod -R u+rw dirname # Recursively give read/write access to the owner
+
+sudo chown user filename      # Change owner
+sudo chown user:group filename # Change owner and group
+sudo chown -R user:group dirname # Recursively change owner/group for a directory
+
+sudo chgrp group_name filename   # Change the group of a file
+sudo chgrp -R group_name dirname # Recursively change the group of a directory
+
+chmod +t dirname
+
+find /path -type f -perm 644   # Find files with 644 permissions
+find /path -type d -perm 755   # Find directories with 755 permissions
+
+
+Ssh
+sudo systemctl status ssh
+
+sudo apt update
+sudo apt install openssh-server -y
+
+sudo systemctl enable ssh
+sudo systemctl start ssh
+
+sudo systemctl status ssh
+
+sudo systemctl restart ssh
+
+sudo ufw allow ssh
+
+sudo ufw enable
+
+From remote computer 
+ssh your_username@your_server_ip
+
+
+
+FTP
+sudo apt update
+sudo apt install vsftpd -y
+
+sudo cp /etc/vsftpd.conf /etc/vsftpd.conf.bak
+
+sudo nano /etc/vsftpd.conf
+
+anonymous_enable=NO
+local_enable=YES
+write_enable=YES
+chroot_local_user=YES
+user_sub_token=$USER
+local_root=/home/$USER/ftp
+pasv_min_port=40000
+pasv_max_port=50000
+pasv_enable=YES
+allow_writeable_chroot=YES
+
+
+sudo adduser ftpuser
+sudo passwd ftpuser
+
+sudo mkdir -p /home/ftpuser/ftp
+sudo chmod 750 /home/ftpuser/ftp
+sudo chown ftpuser: /home/ftpuser/ftp
+
+sudo systemctl restart vsftpd
+sudo systemctl enable vsftpd
+
+sudo ufw allow 20/tcp
+sudo ufw allow 21/tcp
+sudo ufw allow 40000:50000/tcp
+sudo ufw reload
+
+sudo systemctl status vsftpd
+
+ftp localhost
+
+sudo systemctl restart vsftpd
+
+Now test it using filezilla or any other client 
