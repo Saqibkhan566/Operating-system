@@ -1,2 +1,2 @@
 # os
-Operating System resources.
+Operating System resources..
